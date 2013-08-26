@@ -13,6 +13,7 @@
                 <group>
                     <field name="reporting_period_start"/>
                     <field name="reporting_period_end"/>
+                    <button name="calculate_period" string="Calculate Period" type="action"/>
                 </group>
                 <group>
                     <field name="line_101"/>
