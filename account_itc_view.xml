@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<openerp>
+  <data>
+    <record model="ir.ui.view" id="view_itc_return_form">
+      <field name="name">account.itc.return.form</field>
+      <field name="model">account.itc.return</field>
+      <field name="arch" type="xml">
+        <form string="ITC Return" version="7.0">
+            <sheet>
+                <header>
+                    <h1><field name="name"/></h1>
+                </header>
+                <group>
+                    <field name="reporting_period_start"/>
+                    <field name="reporting_period_end"/>
+                </group>
+            </sheet>
+        </form>
+      </field>
+
+    </record>
+
+    <record model="ir.ui.view" id="view_itc_return_tree">
+      <field name="name">account.itc.return.tree</field>
+      <field name="model">account.itc.return</field>
+      <field name="arch" type="xml">
+      <tree string="ITC Return">
+        <field name="reporting_period_start"/>
+        <field name="reporting_period_end"/>
+      </tree>
+      </field>
+    </record>
+
+   <record model="ir.actions.act_window" id="action_document_file_form">
+        <field name="name">Documents</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">ir.attachment</field>
+        <field name="view_type">form</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to create a new document.
+          </p><p>
+            The Documents repository gives you access to all attachments, such
+            as mails, project documents, invoices etc.
+          </p>
+        </field>
+    </record>
+
+
+    <record id="action_account_itc_return_form" model="ir.actions.act_window">
+        <field name="name">ITC Returns</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.itc.return</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to create a new ITC Return
+            </p><p>
+                An ITC return allows you to automate submissions to the CRA.
+            </p>
+        </field>
+    </record>
+
+    <menuitem name="ITC Returns" action="action_account_itc_return_form" id="menu_account_itc_return" parent="account.menu_finance_periodical_processing" sequence="3"/>
+
+  </data>
+</openerp>
