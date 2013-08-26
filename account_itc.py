@@ -27,7 +27,12 @@ from openerp.tools.translate import _
 class account_itc_config(osv.osv):
     _name = "account.itc.config"
     _description = "Accounting ITC Tax Configuration"
-
+    _columns = {
+        'software_code' : fields.char('Software Verification Code', size=128, required=True),
+        'transaction_set_id' : fields.char('Transaction Set Id', size=128, required=True),
+        'business_number' : fields.char('Business Number', size=20, required=True),
+    }
+account_itc_config()
 
 class account_itc_return(osv.osv):
     _name = "account.itc.return"
@@ -36,6 +41,18 @@ class account_itc_return(osv.osv):
         'name' : fields.char('Name', size=128, required=True),
         'reporting_period_start' : fields.date('Reporting Period Start', required=True, help="The start date of this ITC return"),
         'reporting_period_end' : fields.date('Reporting Period END', required=True, help="The end date of this ITC return"),
+        'line_101' : fields.float('Sales & Revenue', digits=[12,2], required=True),
+        'line_105' : fields.float('Total GST/HST', digits=[12,2], required=True),
+        'line_108' : fields.float('Total ITC\'s & adj', digits=[12,2], required=True),
+        'line_109' : fields.float('Net Tax', digits=[12,2], required=True),
+        'line_110' : fields.float('Installments & Revenue', digits=[12,2], required=True),
+        'line_111' : fields.float('Rebates', digits=[12,2], required=True),
+        'line_205' : fields.float('GST/HST due to aquisition of property', digits=[12,2], required=True),
+        'line_405' : fields.float('Other GST/HST', digits=[12,2], required=True),
+        'line_114' : fields.float('Refund Claimed', digits=[12,2], required=True),
+        'line_115' : fields.float('Amount Owing', digits=[12,2], required=True),
+        'line_135' : fields.float('Total GST New housing Rebates', digits=[12,2], required=True),
+        'line_136' : fields.float('Deduction for Pension', digits=[12,2], required=True),
     }
 
 account_itc_return()

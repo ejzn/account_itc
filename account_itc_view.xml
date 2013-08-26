@@ -14,6 +14,20 @@
                     <field name="reporting_period_start"/>
                     <field name="reporting_period_end"/>
                 </group>
+                <group>
+                    <field name="line_101"/>
+                    <field name="line_105"/>
+                    <field name="line_108"/>
+                    <field name="line_109"/>
+                    <field name="line_110"/>
+                    <field name="line_111"/>
+                    <field name="line_205"/>
+                    <field name="line_405"/>
+                    <field name="line_114"/>
+                    <field name="line_115"/>
+                    <field name="line_135"/>
+                    <field name="line_136"/>
+                </group>
             </sheet>
         </form>
       </field>
@@ -27,6 +41,12 @@
       <tree string="ITC Return">
         <field name="reporting_period_start"/>
         <field name="reporting_period_end"/>
+        <field name="line_101"/>
+        <field name="line_105"/>
+        <field name="line_108"/>
+        <field name="line_109"/>
+        <field name="line_114"/>
+        <field name="line_115"/>
       </tree>
       </field>
     </record>
