@@ -35,25 +35,57 @@ class account_itc_config(osv.osv):
 account_itc_config()
 
 class account_itc_return(osv.osv):
+    STATE_SELECTION = [
+        ('draft', 'Draft Return'),
+        ('confirmed', 'Confirmed'),
+        ('filed', 'CRA Filed'),
+    ]
+
+
     _name = "account.itc.return"
     _description = "Accounting ITC Tax Submission"
     _columns = {
-        'name' : fields.char('Name', size=128, required=True),
-        'reporting_period_start' : fields.date('Reporting Period Start', required=True, help="The start date of this ITC return"),
-        'reporting_period_end' : fields.date('Reporting Period END', required=True, help="The end date of this ITC return"),
-        'line_101' : fields.float('Sales & Revenue', digits=[12,2], required=True),
-        'line_105' : fields.float('Total GST/HST', digits=[12,2], required=True),
-        'line_108' : fields.float('Total ITC\'s & adj', digits=[12,2], required=True),
-        'line_109' : fields.float('Net Tax', digits=[12,2], required=True),
-        'line_110' : fields.float('Installments & Revenue', digits=[12,2], required=True),
-        'line_111' : fields.float('Rebates', digits=[12,2], required=True),
-        'line_205' : fields.float('GST/HST due to aquisition of property', digits=[12,2], required=True),
-        'line_405' : fields.float('Other GST/HST', digits=[12,2], required=True),
-        'line_114' : fields.float('Refund Claimed', digits=[12,2], required=True),
-        'line_115' : fields.float('Amount Owing', digits=[12,2], required=True),
-        'line_135' : fields.float('Total GST New housing Rebates', digits=[12,2], required=True),
-        'line_136' : fields.float('Deduction for Pension', digits=[12,2], required=True),
+        'reporting_period_start' : fields.date('Reporting Period Start', required=True, states={'filed':[('readonly',True)]}, help="The start date of this ITC return"),
+        'reporting_period_end' : fields.date('Reporting Period END', required=True, states={'filed':[('readonly',True)]}, help="The end date of this ITC return"),
+        'date_filed' : fields.date('Date Filed', states={'filed':[('readonly',True)]}, readonly=True, help="Date the return was processed to CRA"),
+        'state' : fields.selection(STATE_SELECTION, 'Status', readonly=True, help="Status of the ITC Return", select=True),
+        'line_101' : fields.float('Sales & Revenue', states={'filed':[('readonly',True)]}, digits=[12,2], required=True),
+        'line_105' : fields.float('Total GST/HST', states={'filed':[('readonly',True)]}, digits=[12,2], required=True),
+        'line_108' : fields.float('Total ITC\'s & adj', states={'filed':[('readonly',True)]}, digits=[12,2], required=True),
+        'line_109' : fields.float('Net Tax', states={'filed':[('readonly',True)]}, digits=[12,2], required=True),
+        'line_110' : fields.float('Installments & Revenue', states={'filed':[('readonly',True)]}, digits=[12,2], required=True),
+        'line_111' : fields.float('Rebates', states={'filed':[('readonly',True)]}, digits=[12,2], required=True),
+        'line_205' : fields.float('GST/HST due to aquisition of property', states={'filed':[('readonly',True)]}, digits=[12,2], required=True),
+        'line_405' : fields.float('Other GST/HST', digits=[12,2], states={'filed':[('readonly',True)]}, required=True),
+        'line_114' : fields.float('Refund Claimed', digits=[12,2], states={'filed':[('readonly',True)]}, required=True),
+        'line_115' : fields.float('Amount Owing', digits=[12,2], states={'filed':[('readonly',True)]}, required=True),
+        'line_135' : fields.float('Total GST New housing Rebates', digits=[12,2], states={'filed':[('readonly',True)]}, required=True),
+        'line_136' : fields.float('Deduction for Pension', digits=[12,2], states={'filed':[('readonly',True)]}, required=True),
     }
+
+    _defaults = {
+        'state': 'draft',
+        'reporting_period_end': fields.date.context_today,
+    }
+
+    # Calculate the values in the object by pulling data from the
+    # Accounting module for the specified period
+    def action_calculate_period(self, cr, uid, ids, context=None):
+        print "Calculating, should return a value here"
+
+    def action_confirm_return(self, cr, uid, ids, context=None):
+        self.write(cr, uid, ids, {'state': 'confirmed', 'date_filed': fields.date.context_today(self,cr,uid,context=context)})
+
+    # File the return to CRA
+    def action_file_return(self, cr, uid, ids, context=None):
+        # Do some work by sending and receiving the response from CRA, then set to filed.
+        self.write(cr, uid, ids, {'state': 'filed', 'date_filed': fields.date.context_today(self,cr,uid,context=context)})
+
+
+    # Cancel a return, not sure if it is possible yet, may need to re-file
+    # which is okay, since we can just amend and re-file
+    def action_ammend_return(self, cr, uid, ids, context=None):
+        self.write(cr, uid, ids, {'state': 'draft'})
 
 account_itc_return()
 

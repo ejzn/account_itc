@@ -1,19 +1,31 @@
 <?xml version="1.0"?>
 <openerp>
   <data>
+
+    <record model="ir.actions.client" id="action_itc_file">
+        <field name="name">File CRA Return</field>
+        <field name="tag">account_itc_file.action</field>
+    </record>
+
     <record model="ir.ui.view" id="view_itc_return_form">
       <field name="name">account.itc.return.form</field>
       <field name="model">account.itc.return</field>
       <field name="arch" type="xml">
         <form string="ITC Return" version="7.0">
-            <sheet>
-                <header>
-                    <h1><field name="name"/></h1>
-                </header>
+            <header>
+                <button name="action_calculate_period" states="draft" string="Calculate Period" type="object"/>
+                <button name="action_confirm_return" states="draft" string="Confirm" type="object"/>
+                <button name="action_ammend_return" states="filed" string="Ammend Return" type="object" />
+                <field name="id"  widget="account_itc"/>
+                <!--<button name="action_itc_file" action="action_itc_file" states="confirmed" string="File" type="action" />-->
+                <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,filed" statusbar_colors='{"draft":"red","confirmed":"yellow", "filed":"blue"}' readonly="1"/>
+            </header>
+             <sheet>
+                <h1><label for="x_name" class="oe_inline" string="Return # "/><field class="oe_inline" name="id"/></h1>
                 <group>
                     <field name="reporting_period_start"/>
                     <field name="reporting_period_end"/>
-                    <button name="calculate_period" string="Calculate Period" type="action"/>
+                    <field name="date_filed"/>
                 </group>
                 <group>
                     <field name="line_101"/>
@@ -40,6 +52,8 @@
       <field name="model">account.itc.return</field>
       <field name="arch" type="xml">
       <tree string="ITC Return">
+        <field name="id"/>
+        <field name="state"/>
         <field name="reporting_period_start"/>
         <field name="reporting_period_end"/>
         <field name="line_101"/>
@@ -51,22 +65,6 @@
       </tree>
       </field>
     </record>
-
-   <record model="ir.actions.act_window" id="action_document_file_form">
-        <field name="name">Documents</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">ir.attachment</field>
-        <field name="view_type">form</field>
-        <field name="help" type="html">
-          <p class="oe_view_nocontent_create">
-            Click to create a new document.
-          </p><p>
-            The Documents repository gives you access to all attachments, such
-            as mails, project documents, invoices etc.
-          </p>
-        </field>
-    </record>
-
 
     <record id="action_account_itc_return_form" model="ir.actions.act_window">
         <field name="name">ITC Returns</field>

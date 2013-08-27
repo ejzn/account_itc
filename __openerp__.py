@@ -28,17 +28,22 @@
 Submit your GST/HST and ITC's to Canadian Revenue Agency (CRA)
 ========================================================
 
-A .tx file is generated, then based on your CRA information you can
+A .tax file is generated, then based on your CRA information you can
 submit the output directly to the CRA.
 
 """,
     'author': 'ENAPPS Canada',
     'website': 'http://www.enapps.ca',
     'images': ['images/comething.jpeg'],
-    'depends': ['account', 'l10n_ca'],
+    'depends': ['web','account', 'l10n_ca'],
     'data': [
-            'account_itc_view.xml',
+        'account_itc_view.xml',
     ],
+    'qweb' : [
+        "static/src/xml/*.xml",
+    ],
+    'js': ['static/src/js/account_itc.js'],
+    'css': ['static/src/css/style.css'],
     'installable': True,
     'auto_install': False,
 }
